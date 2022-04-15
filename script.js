@@ -14,17 +14,17 @@ let heightValue = document.getElementById("height-value");
 let events = {
     mouse : {
         down : "mousedown",
-        up : "mouseup",
         move : "mousemove",
+        up : "mouseup",
     },
     touch : {
         down : "touchstart",
-        up : "touchend",
         move : "touchmove",
+        up : "touchend",
     },
 };
 
-let deviceType ="";
+let deviceType = "";
 
 //initially draw and erase would be false
 let draw = false;
@@ -78,7 +78,8 @@ gridButton.addEventListener("click", () => {
                     col.style.backgroundColor = colorButton.value;
                 }
             });
-            col.addEventListener(events[deviceType].up, (e) => {
+
+            col.addEventListener(events[deviceType].move, (e) => {
                 /* elementFromPoint returns the elemet at x,y coordinates */
                 let elementId = document.elementFromPoint(
                     !isTouchDevice() ? e.clientX : e.touches[0].clientX,
@@ -87,7 +88,7 @@ gridButton.addEventListener("click", () => {
                     //checks if the element is a gridCol
                     checker(elementId);
                 });
-            col.addEventListener(events[deviceType].move, () => {
+            col.addEventListener(events[deviceType].up, () => {
                 draw = false;
             });
             div.appendChild(col);
@@ -101,7 +102,7 @@ function checker(elementId){
     //llop through all boxes and check if the id matches
     gridColums.forEach(element => {
         //if id matches then color
-        if(element.id === elementId){
+        if(elementId == element.id){
             if(draw && !erase){
                 element.style.backgroundColor = colorButton.value;
             } else if (draw && erase){
